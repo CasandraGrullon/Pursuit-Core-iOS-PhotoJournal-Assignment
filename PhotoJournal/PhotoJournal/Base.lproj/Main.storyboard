@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Image CollectionVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="PhotoJournal" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ImageCollectionVC" customModule="PhotoJournal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -19,14 +19,14 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="T6Z-pE-nqU">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vlo-LS-3ca">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vlo-LS-3ca">
                                     <size key="itemSize" width="402" height="320"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="dyC-hv-Khm">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="dyC-hv-Khm" customClass="PhotoCell" customModule="PhotoJournal" customModuleProvider="target">
                                         <rect key="frame" x="6" y="0.0" width="402" height="320"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="4E8-Vu-taL">
@@ -56,6 +56,9 @@
                                                     </constraints>
                                                     <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <state key="normal" backgroundImage="ellipsis" catalog="system"/>
+                                                    <connections>
+                                                        <action selector="optionsButtonAction:" destination="dyC-hv-Khm" eventType="touchUpInside" id="Tkb-fn-NpW"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -73,6 +76,11 @@
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="402" height="320"/>
+                                        <connections>
+                                            <outlet property="dateCreatedLabel" destination="fOH-JH-WLs" id="v9h-dz-b4k"/>
+                                            <outlet property="imageNameLabel" destination="OZa-au-Qcp" id="EQx-zG-IXb"/>
+                                            <outlet property="imageView" destination="RVl-Gs-tQM" id="vas-ei-asa"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -108,6 +116,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="T6Z-pE-nqU" id="jic-JT-MtC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -116,13 +127,17 @@
         <!--Settings-->
         <scene sceneID="EZR-1p-H0u">
             <objects>
-                <viewController id="sNi-Hm-bm9" sceneMemberID="viewController">
+                <viewController id="sNi-Hm-bm9" customClass="SettingsVC" customModule="PhotoJournal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sj9-w5-iJa">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mYI-cf-r81">
+                                <rect key="frame" x="0.0" y="88" width="414" height="166"/>
+                                <color key="backgroundColor" red="0.81391446572269888" green="0.81391446572269888" blue="0.81391446572269888" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Background Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bId-zp-4Ac">
-                                <rect key="frame" x="8" y="108" width="398" height="24"/>
+                                <rect key="frame" x="8" y="98" width="398" height="24"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -155,13 +170,13 @@
                                 <state key="normal" backgroundImage="square.fill" catalog="system"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scroll Direction" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m5t-f4-QzB">
-                                <rect key="frame" x="8" y="262" width="398" height="24"/>
+                                <rect key="frame" x="8" y="264" width="398" height="24"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hMm-ie-aCU">
-                                <rect key="frame" x="10" y="296" width="120" height="32"/>
+                                <rect key="frame" x="10" y="298" width="120" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="gZb-50-ec0"/>
                                 </constraints>
@@ -170,23 +185,40 @@
                                     <segment title="" image="arrow.down" catalog="system"/>
                                 </segments>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8v8-I7-Zp9">
+                                <rect key="frame" x="280" y="143" width="80" height="57.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="jf1-VL-GUp"/>
+                                    <constraint firstAttribute="height" constant="60" id="mon-4z-kzd"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" backgroundImage="square.fill" catalog="system">
+                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="LQG-EV-KK3" firstAttribute="leading" secondItem="mc0-AJ-4is" secondAttribute="leading" constant="10" id="1pp-t7-h3Z"/>
-                            <constraint firstItem="LQG-EV-KK3" firstAttribute="top" secondItem="bId-zp-4Ac" secondAttribute="bottom" constant="10" id="4rv-R1-NRz"/>
+                            <constraint firstItem="LQG-EV-KK3" firstAttribute="top" secondItem="bId-zp-4Ac" secondAttribute="bottom" constant="20" id="4rv-R1-NRz"/>
                             <constraint firstItem="nJS-Te-NKY" firstAttribute="leading" secondItem="ffo-6J-2XK" secondAttribute="trailing" constant="10" id="6QI-dA-Ntg"/>
-                            <constraint firstItem="ffo-6J-2XK" firstAttribute="top" secondItem="bId-zp-4Ac" secondAttribute="bottom" constant="10" id="9BL-EE-LfP"/>
+                            <constraint firstItem="ffo-6J-2XK" firstAttribute="top" secondItem="bId-zp-4Ac" secondAttribute="bottom" constant="20" id="9BL-EE-LfP"/>
                             <constraint firstItem="mc0-AJ-4is" firstAttribute="trailing" secondItem="m5t-f4-QzB" secondAttribute="trailing" constant="8" id="9EE-74-3Tc"/>
-                            <constraint firstItem="nJS-Te-NKY" firstAttribute="top" secondItem="bId-zp-4Ac" secondAttribute="bottom" constant="10" id="D1J-uD-CPE"/>
+                            <constraint firstItem="m5t-f4-QzB" firstAttribute="top" secondItem="mYI-cf-r81" secondAttribute="bottom" constant="10" id="9n9-9u-u73"/>
+                            <constraint firstItem="nJS-Te-NKY" firstAttribute="top" secondItem="bId-zp-4Ac" secondAttribute="bottom" constant="20" id="D1J-uD-CPE"/>
+                            <constraint firstItem="8v8-I7-Zp9" firstAttribute="leading" secondItem="nJS-Te-NKY" secondAttribute="trailing" constant="10" id="Dbj-dB-aRX"/>
+                            <constraint firstItem="mYI-cf-r81" firstAttribute="top" secondItem="mc0-AJ-4is" secondAttribute="top" id="I8N-sU-QHK"/>
+                            <constraint firstItem="mYI-cf-r81" firstAttribute="height" secondItem="sj9-w5-iJa" secondAttribute="height" multiplier="0.185268" id="Izb-KM-QWF"/>
                             <constraint firstItem="hMm-ie-aCU" firstAttribute="top" secondItem="m5t-f4-QzB" secondAttribute="bottom" constant="10" id="Kvk-02-VoJ"/>
+                            <constraint firstItem="mYI-cf-r81" firstAttribute="leading" secondItem="mc0-AJ-4is" secondAttribute="leading" id="QSy-rT-Pe8"/>
                             <constraint firstItem="bId-zp-4Ac" firstAttribute="leading" secondItem="mc0-AJ-4is" secondAttribute="leading" constant="8" id="ZBY-PX-zlR"/>
                             <constraint firstItem="hMm-ie-aCU" firstAttribute="leading" secondItem="mc0-AJ-4is" secondAttribute="leading" constant="10" id="dpP-U5-JRQ"/>
-                            <constraint firstItem="bId-zp-4Ac" firstAttribute="top" secondItem="mc0-AJ-4is" secondAttribute="top" constant="20" id="fvG-Za-Uws"/>
+                            <constraint firstItem="bId-zp-4Ac" firstAttribute="top" secondItem="mc0-AJ-4is" secondAttribute="top" constant="10" id="fvG-Za-Uws"/>
                             <constraint firstItem="mc0-AJ-4is" firstAttribute="trailing" secondItem="bId-zp-4Ac" secondAttribute="trailing" constant="8" id="fvt-mL-Hgc"/>
                             <constraint firstItem="m5t-f4-QzB" firstAttribute="leading" secondItem="mc0-AJ-4is" secondAttribute="leading" constant="8" id="hrW-2S-HWg"/>
+                            <constraint firstItem="8v8-I7-Zp9" firstAttribute="top" secondItem="bId-zp-4Ac" secondAttribute="bottom" constant="20" id="s84-DR-R3i"/>
                             <constraint firstItem="ffo-6J-2XK" firstAttribute="leading" secondItem="LQG-EV-KK3" secondAttribute="trailing" constant="10" id="tBb-GS-df5"/>
-                            <constraint firstItem="m5t-f4-QzB" firstAttribute="top" secondItem="LQG-EV-KK3" secondAttribute="bottom" constant="60" id="xqI-iB-TaY"/>
+                            <constraint firstAttribute="trailing" secondItem="mYI-cf-r81" secondAttribute="trailing" id="tv0-c3-seE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="mc0-AJ-4is"/>
                     </view>
@@ -194,12 +226,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZLe-5m-t17" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1373.913043478261" y="-121.20535714285714"/>
+            <point key="canvasLocation" x="1374" y="-171"/>
         </scene>
-        <!--View Controller-->
+        <!--Add Edit ImageVC-->
         <scene sceneID="qSu-w0-p90">
             <objects>
-                <viewController id="9uZ-br-EGT" sceneMemberID="viewController">
+                <viewController id="9uZ-br-EGT" customClass="AddEditImageVC" customModule="PhotoJournal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gnm-25-fok">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -222,7 +254,7 @@
                                 <rect key="frame" x="0.0" y="298.5" width="414" height="421"/>
                             </imageView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D7m-zt-wH0">
-                                <rect key="frame" x="0.0" y="705" width="414" height="49"/>
+                                <rect key="frame" x="0.0" y="759" width="414" height="49"/>
                                 <items>
                                     <barButtonItem title="Photo Library" id="KXZ-hJ-rvM"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="orm-6S-TLd"/>
@@ -258,7 +290,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gFD-Hd-qyN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1374" y="523"/>
+            <point key="canvasLocation" x="1374" y="479"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="OMj-mz-0eQ">

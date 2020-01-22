@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "DataPersistence",
+        "repositoryURL": "https://github.com/alexpaul/DataPersistence",
+        "state": {
+          "branch": null,
+          "revision": "f35ee03b8c70c27f6e0743d7fb9f5758ad6d856b",
+          "version": "1.0.6"
+        }
+      },
+      {
+        "package": "ImageKit",
+        "repositoryURL": "https://github.com/alexpaul/ImageKit",
+        "state": {
+          "branch": null,
+          "revision": "acaf3a0a2a0aab752fc24cc0ca40597f7b1dcca0",
+          "version": "1.0.4"
+        }
+      },
+      {
+        "package": "NetworkHelper",
+        "repositoryURL": "https://github.com/alexpaul/NetworkHelperSPM",
+        "state": {
+          "branch": null,
+          "revision": "149864c6a0aa39ada6f19cb154f12c4c30f0ddcf",
+          "version": "1.0.6"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

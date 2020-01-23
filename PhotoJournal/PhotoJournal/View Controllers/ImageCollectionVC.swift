@@ -7,32 +7,96 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ImageCollectionVC: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    var photos = [PhotoJournal]() {
+    private let dataPersistance = PersistenceHelper(filename: "images.plist")
+    
+    var photos = [PhotoJournal]()
+    
+    var selectedImage: UIImage? {
         didSet {
-            loadPhotos()
-            collectionView.reloadData()
+            appendPhoto()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadPhotos()
+        collectionView.dataSource = self
+        collectionView.delegate = self
     }
 
     func loadPhotos() {
         do {
-           photos = try PersistanceHelper.loadData()
+            photos = try dataPersistance.loadPhotos()
         } catch {
             print("issue loading photos \(error)")
         }
     }
     
-    
+    func appendPhoto() {
+        guard let image = selectedImage else {
+            print("image is nil")
+            return
+        }
+        let size = UIScreen.main.bounds.size
+        let rect = AVMakeRect(aspectRatio: image.size, insideRect: CGRect(origin: CGPoint.zero, size: size))
+        let smallImage = image.resizeImage(to: rect.size.width, height: rect.size.height)
+        guard let imageData = smallImage.jpegData(compressionQuality: 1.0) else {
+            return
+        }
+        
+        let photo = PhotoJournal(name: "" , imageData: imageData, description: "", dateCreated: Date())
+        photos.insert(photo, at: 0)
+        let indexPath = IndexPath(row: 0, section: 0)
+        collectionView.insertItems(at: [indexPath])
+        
+        do {
+            try dataPersistance.create(photo: photo)
+        } catch {
+            print("error saving \(error)")
+        }
+    }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let addPhotoVC = segue.destination as? AddEditImageVC else {
+            fatalError("could not segue")
+        }
+        
+    }
+    
+    
 }
 
+extension ImageCollectionVC: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return photos.count
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCell else {
+            fatalError("")
+        }
+        let photo = photos[indexPath.row]
+        cell.configureCell(for: photo)
+        return cell
+    }
+}
+extension ImageCollectionVC: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let maxWidth: CGFloat = UIScreen.main.bounds.size.width
+        let itemWidth: CGFloat = maxWidth * 0.80
+        return CGSize(width: itemWidth, height: itemWidth)  }
+}
+extension UIImage {
+    func resizeImage(to width: CGFloat, height: CGFloat) -> UIImage {
+        let size = CGSize(width: width, height: height)
+        let renderer = UIGraphicsImageRenderer(size: size)
+        return renderer.image { (context) in
+            self.draw(in: CGRect(origin: .zero, size: size))
+        }
+    }
+}

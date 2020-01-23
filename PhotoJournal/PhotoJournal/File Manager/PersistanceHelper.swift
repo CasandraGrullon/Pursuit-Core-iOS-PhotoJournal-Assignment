@@ -38,7 +38,7 @@ class PersistenceHelper {
     }
   }
   
-  public func reorderEvents(photos: [PhotoJournal]) {
+  public func reorder(photos: [PhotoJournal]) {
     self.photos = photos
     try? save()
   }

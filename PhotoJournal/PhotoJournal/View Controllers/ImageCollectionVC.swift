@@ -17,7 +17,6 @@ class ImageCollectionVC: UIViewController {
     
     var photos = [PhotoJournal]() {
         didSet {
-            loadPhotos()
             collectionView.reloadData()
         }
     }
@@ -66,6 +65,8 @@ class ImageCollectionVC: UIViewController {
             print("error saving \(error)")
         }
     }
+    
+
 
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         showViewController()
@@ -77,6 +78,7 @@ class ImageCollectionVC: UIViewController {
         }
         addEditVC.delegate = self
         addEditVC.photo = photo
+        
         present(addEditVC, animated: true)
     }
     
@@ -119,6 +121,12 @@ extension UIImage {
 extension ImageCollectionVC: SaveImageDelegate {
     func didSave(photo: PhotoJournal) {
         photos.append(photo)
+        
+        do {
+            try dataPersistance.create(photo: photo)
+        } catch {
+            print("could not create photo")
+        }
     }
     
     

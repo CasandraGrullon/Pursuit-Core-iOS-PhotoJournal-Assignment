@@ -14,15 +14,23 @@ class PhotoCell: UICollectionViewCell {
     @IBOutlet weak var imageNameLabel: UILabel!
     @IBOutlet weak var dateCreatedLabel: UILabel!
     
+    lazy var dateFormatter:  DateFormatter = {
+      let formatter = DateFormatter()
+      formatter.dateFormat = "MMMM d, yyyy h:mm a"
+      formatter.timeZone = .current
+      return formatter
+    }()
+    
     func configureCell(for image: PhotoJournal) {
         imageNameLabel.text = image.name
-        dateCreatedLabel.text = image.dateCreated.description
+        dateCreatedLabel.text = dateFormatter.string(from: image.dateCreated)
         
         guard let image = UIImage(data: image.imageData) else {
             return
         }
         imageView.image = image
     }
+
     
     private func showMenu() {
         //TODO: add cell delegate

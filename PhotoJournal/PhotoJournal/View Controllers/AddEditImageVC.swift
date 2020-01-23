@@ -22,6 +22,8 @@ class AddEditImageVC: UIViewController {
 
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var cameraButtonOutlet: UIBarButtonItem!
+    @IBOutlet weak var photoLibraryOutlet: UIBarButtonItem!
     
     weak var delegate: SaveImageDelegate?
     
@@ -68,11 +70,14 @@ class AddEditImageVC: UIViewController {
     @IBAction func cameraButtonSelected(_ sender: UIBarButtonItem) {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             self.showImageController(isCameraSelected: true)
+        } else {
+            cameraButtonOutlet.isEnabled = false
         }
     }
     
     @IBAction func saveButtonPressed(_ sender: UIButton) {
         savingImage()
+        dismiss(animated: true)
     }
     
     private func showImageController(isCameraSelected: Bool) {
@@ -82,8 +87,6 @@ class AddEditImageVC: UIViewController {
         }
         present(imagePicker, animated: true)
     }
-    
-
 }
 
 extension AddEditImageVC: UITextFieldDelegate {

@@ -15,7 +15,7 @@ enum PhotoState {
 }
 
 protocol SaveImageDelegate: AnyObject {
-    func didSave(_photo: PhotoJournal)
+    func didSave(photo: PhotoJournal)
 }
 
 class AddEditImageVC: UIViewController {
@@ -26,7 +26,6 @@ class AddEditImageVC: UIViewController {
     weak var delegate: SaveImageDelegate?
     
     private let imagePicker = UIImagePickerController()
-    //private let dataPersistance = PersistenceHelper(filename: "images.plist")
     
     public private(set) var state = PhotoState.addingNew
     
@@ -40,21 +39,26 @@ class AddEditImageVC: UIViewController {
     }
     
     func updateUI() {
-        if let photo = photo {
-            self.photo = photo
-            textField.text = photo.name
-            state = .editing
-        } else {
-//            photo = PhotoJournal(name: "", imageData: imageView.image?.jpegData(compressionQuality: 1.0), description: "", dateCreated: Date())
-            state = .addingNew
-        }
+//        if let photo = photo {
+//            self.photo = photo
+//            textField.text = photo.name
+//            state = .editing
+//        } else {
+////            photo = PhotoJournal(name: "", imageData: imageView.image?.jpegData(compressionQuality: 1.0), description: "", dateCreated: Date())
+//            state = .addingNew
+//        }
     }
     
     func savingImage() {
-        guard let pic = photo else {
+        guard let photoData = imageView.image?.jpegData(compressionQuality: 1.0) else {
             return
         }
-        delegate?.didSave(_photo: pic)
+        photo = PhotoJournal(name: textField.text ?? "", imageData: photoData, dateCreated: Date())
+        guard let pic = photo else {
+            print("could not get pic")
+            return
+        }
+        delegate?.didSave(photo: pic)
     }
     
     @IBAction func photoLibraryButtonPressed(_ sender: UIBarButtonItem) {
@@ -68,7 +72,7 @@ class AddEditImageVC: UIViewController {
     }
     
     @IBAction func saveButtonPressed(_ sender: UIButton) {
-        
+        savingImage()
     }
     
     private func showImageController(isCameraSelected: Bool) {

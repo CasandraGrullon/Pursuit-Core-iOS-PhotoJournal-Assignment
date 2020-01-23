@@ -25,6 +25,8 @@ class PhotoCell: UICollectionViewCell {
     }
     
     private func showMenu() {
+        //TODO: add cell delegate
+        
         let view = UIViewController()
         var optionsMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var edit = UIAlertAction(title: "Edit", style: .default)

@@ -15,7 +15,12 @@ class ImageCollectionVC: UIViewController {
     
     private let dataPersistance = PersistenceHelper(filename: "images.plist")
     
-    var photos = [PhotoJournal]()
+    var photos = [PhotoJournal]() {
+        didSet {
+            loadPhotos()
+            collectionView.reloadData()
+        }
+    }
     
     var selectedImage: UIImage? {
         didSet {
@@ -50,7 +55,7 @@ class ImageCollectionVC: UIViewController {
             return
         }
         
-        let photo = PhotoJournal(name: "" , imageData: imageData, description: "", dateCreated: Date())
+        let photo = PhotoJournal(name: "" , imageData: imageData, dateCreated: Date())
         photos.insert(photo, at: 0)
         let indexPath = IndexPath(row: 0, section: 0)
         collectionView.insertItems(at: [indexPath])
@@ -70,11 +75,8 @@ class ImageCollectionVC: UIViewController {
         guard let addEditVC = storyboard?.instantiateViewController(identifier: "AddEditImageVC") as? AddEditImageVC else {
             fatalError("could not downcast to AddEditImageVC")
         }
-        
-        addEditVC.delegate = self as? SaveImageDelegate
-        
+        addEditVC.delegate = self
         addEditVC.photo = photo
-        
         present(addEditVC, animated: true)
     }
     
@@ -112,5 +114,12 @@ extension UIImage {
             self.draw(in: CGRect(origin: .zero, size: size))
         }
     }
+}
+
+extension ImageCollectionVC: SaveImageDelegate {
+    func didSave(photo: PhotoJournal) {
+        photos.append(photo)
+    }
+    
     
 }

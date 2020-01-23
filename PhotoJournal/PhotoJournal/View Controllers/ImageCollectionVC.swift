@@ -65,8 +65,6 @@ class ImageCollectionVC: UIViewController {
             print("error saving \(error)")
         }
     }
-    
-
 
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         showViewController()
@@ -82,6 +80,38 @@ class ImageCollectionVC: UIViewController {
         present(addEditVC, animated: true)
     }
     
+    private func showMenu(for cell: PhotoCell? = nil) {
+        let view = UIViewController()
+        
+        guard let cell = cell else {
+            return
+        }
+        
+        guard let indexPath = collectionView.indexPath(for: cell) else {
+            return
+        }
+        let optionsMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let edit = UIAlertAction(title: "Edit", style: .default) { [weak self] (action) in
+            self?.showViewController()
+        }
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in
+            do{
+                try self?.dataPersistance.delete(photo: indexPath.row)
+            }catch{
+                print("could not delete")
+            }
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] (action) in
+            self?.dismiss(animated: true)
+        }
+        optionsMenu.addAction(edit)
+        optionsMenu.addAction(delete)
+        optionsMenu.addAction(cancel)
+
+        optionsMenu.present(view, animated: true, completion: nil)
+    }
+    
 }
 
 extension ImageCollectionVC: UICollectionViewDataSource {
@@ -94,6 +124,7 @@ extension ImageCollectionVC: UICollectionViewDataSource {
         }
         let photo = photos[indexPath.row]
         cell.configureCell(for: photo)
+        cell.delegate = self
         return cell
     }
     
@@ -101,6 +132,7 @@ extension ImageCollectionVC: UICollectionViewDataSource {
         let photo = photos[indexPath.row]
         showViewController(photo)
     }
+
 }
 extension ImageCollectionVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -128,6 +160,12 @@ extension ImageCollectionVC: SaveImageDelegate {
             print("could not create photo")
         }
     }
-    
-    
+}
+
+extension ImageCollectionVC: CellDelegate {
+    func didSelect(sender: UIButton) {
+        if sender.isSelected {
+            showMenu()
+        }
+    }
 }

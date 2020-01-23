@@ -9,10 +9,16 @@
 import UIKit
 import AVFoundation
 
+protocol CellDelegate: AnyObject {
+    func didSelect(sender: UIButton)
+}
+
 class PhotoCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var imageNameLabel: UILabel!
     @IBOutlet weak var dateCreatedLabel: UILabel!
+    
+    weak var delegate: CellDelegate?
     
     lazy var dateFormatter:  DateFormatter = {
       let formatter = DateFormatter()
@@ -31,26 +37,9 @@ class PhotoCell: UICollectionViewCell {
         imageView.image = image
     }
 
-    
-    private func showMenu() {
-        //TODO: add cell delegate
-        
-        let view = UIViewController()
-        var optionsMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        var edit = UIAlertAction(title: "Edit", style: .default)
-        var delete = UIAlertAction(title: "Delete", style: .destructive)
-        var cancel = UIAlertAction(title: "Cancel", style: .cancel)
-        optionsMenu.addAction(edit)
-        optionsMenu.addAction(delete)
-        optionsMenu.addAction(cancel)
-        
-        optionsMenu.present(view, animated: true, completion: nil)
-//        present(optionsMenu, animated: true)
-        
-        
-    }
+
     
     @IBAction func optionsButtonAction(_ sender: UIButton) {
-        showMenu()
+        delegate?.didSelect(sender: sender)
     }
 }

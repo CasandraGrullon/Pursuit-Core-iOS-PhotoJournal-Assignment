@@ -62,13 +62,21 @@ class ImageCollectionVC: UIViewController {
         }
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let addPhotoVC = segue.destination as? AddEditImageVC else {
-            fatalError("could not segue")
-        }
-        
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        showViewController()
     }
     
+    private func showViewController(_ photo: PhotoJournal? = nil) {
+        guard let addEditVC = storyboard?.instantiateViewController(identifier: "AddEditImageVC") as? AddEditImageVC else {
+            fatalError("could not downcast to AddEditImageVC")
+        }
+        
+        addEditVC.delegate = self as? SaveImageDelegate
+        
+        addEditVC.photo = photo
+        
+        present(addEditVC, animated: true)
+    }
     
 }
 
@@ -83,6 +91,11 @@ extension ImageCollectionVC: UICollectionViewDataSource {
         let photo = photos[indexPath.row]
         cell.configureCell(for: photo)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let photo = photos[indexPath.row]
+        showViewController(photo)
     }
 }
 extension ImageCollectionVC: UICollectionViewDelegateFlowLayout {
@@ -99,4 +112,5 @@ extension UIImage {
             self.draw(in: CGRect(origin: .zero, size: size))
         }
     }
+    
 }

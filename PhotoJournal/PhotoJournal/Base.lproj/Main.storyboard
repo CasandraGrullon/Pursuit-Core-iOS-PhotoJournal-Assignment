@@ -37,7 +37,10 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="402" height="224"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OZa-au-Qcp">
-                                                    <rect key="frame" x="8" y="232" width="110" height="24"/>
+                                                    <rect key="frame" x="8" y="232" width="200" height="24"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="200" id="jCk-wp-dl3"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -49,7 +52,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w58-jQ-OcP">
-                                                    <rect key="frame" x="375" y="239" width="19" height="5.5"/>
+                                                    <rect key="frame" x="374" y="239" width="20" height="5.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="Ns8-iU-8nO"/>
+                                                    </constraints>
                                                     <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <state key="normal" backgroundImage="ellipsis" catalog="system"/>
                                                     <connections>
@@ -63,9 +69,7 @@
                                                 <constraint firstItem="fOH-JH-WLs" firstAttribute="leading" secondItem="4E8-Vu-taL" secondAttribute="leading" constant="8" id="Ekv-jX-Iva"/>
                                                 <constraint firstItem="OZa-au-Qcp" firstAttribute="leading" secondItem="4E8-Vu-taL" secondAttribute="leading" constant="8" id="NtE-xF-BcL"/>
                                                 <constraint firstItem="RVl-Gs-tQM" firstAttribute="leading" secondItem="4E8-Vu-taL" secondAttribute="leading" id="P4e-Aq-3BO"/>
-                                                <constraint firstItem="w58-jQ-OcP" firstAttribute="leading" secondItem="OZa-au-Qcp" secondAttribute="trailing" constant="257" id="Ybb-IX-dtv"/>
                                                 <constraint firstAttribute="trailing" secondItem="fOH-JH-WLs" secondAttribute="trailing" constant="8" id="edY-il-30I"/>
-                                                <constraint firstAttribute="trailing" secondItem="OZa-au-Qcp" secondAttribute="trailing" constant="284" id="fwg-Zt-wsN"/>
                                                 <constraint firstItem="OZa-au-Qcp" firstAttribute="top" secondItem="RVl-Gs-tQM" secondAttribute="bottom" constant="8" id="gyO-Gb-3j8"/>
                                                 <constraint firstAttribute="trailing" secondItem="RVl-Gs-tQM" secondAttribute="trailing" id="iTV-af-8tI"/>
                                                 <constraint firstAttribute="trailing" secondItem="w58-jQ-OcP" secondAttribute="trailing" constant="8" id="jSh-gl-yjR"/>

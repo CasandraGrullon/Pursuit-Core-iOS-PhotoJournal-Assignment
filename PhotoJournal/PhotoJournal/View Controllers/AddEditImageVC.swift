@@ -19,7 +19,7 @@ protocol SaveImageDelegate: AnyObject {
 }
 
 class AddEditImageVC: UIViewController {
-
+    
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var cameraButtonOutlet: UIBarButtonItem!
@@ -41,17 +41,18 @@ class AddEditImageVC: UIViewController {
     }
     
     func updateUI() {
-//        if let photo = photo {
-//            self.photo = photo
-//            textField.text = photo.name
-//            state = .editing
-//        } else {
-////            photo = PhotoJournal(name: "", imageData: imageView.image?.jpegData(compressionQuality: 1.0), description: "", dateCreated: Date())
-//            state = .addingNew
-//        }
+        if let photo = photo {
+            self.photo = photo
+            textField.text = photo.name
+            state = .editing
+        } else {
+            
+            state = .addingNew
+        }
     }
     
     func savingImage() {
+        state = .addingNew
         guard let photoData = imageView.image?.jpegData(compressionQuality: 1.0) else {
             return
         }

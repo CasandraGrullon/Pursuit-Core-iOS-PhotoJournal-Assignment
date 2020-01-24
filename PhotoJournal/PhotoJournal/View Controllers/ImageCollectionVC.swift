@@ -33,7 +33,7 @@ class ImageCollectionVC: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
     }
-
+    
     func loadPhotos() {
         do {
             photos = try dataPersistance.loadPhotos()
@@ -65,7 +65,7 @@ class ImageCollectionVC: UIViewController {
             print("error saving \(error)")
         }
     }
-
+    
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         showViewController()
     }
@@ -76,29 +76,23 @@ class ImageCollectionVC: UIViewController {
         }
         addEditVC.delegate = self
         addEditVC.photo = photo
-        
         present(addEditVC, animated: true)
     }
     
-    private func showMenu(for cell: PhotoCell? = nil) {
-//        let view = UIViewController()
-        
-        guard let cell = cell else {
-            return
-        }
-        
+    private func showMenu(for cell: PhotoCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else {
             return
         }
         
         let optionsMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
         let edit = UIAlertAction(title: "Edit", style: .default) { [weak self] (action) in
             self?.showViewController()
         }
         let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in
             do{
                 try self?.dataPersistance.delete(photo: indexPath.row)
+                self?.loadPhotos()
+                self?.collectionView.reloadData()
             }catch{
                 print("could not delete")
             }
@@ -109,8 +103,7 @@ class ImageCollectionVC: UIViewController {
         optionsMenu.addAction(edit)
         optionsMenu.addAction(delete)
         optionsMenu.addAction(cancel)
-
-         present(optionsMenu, animated: true, completion: nil)
+        present(optionsMenu, animated: true, completion: nil)
     }
     
 }
@@ -128,13 +121,6 @@ extension ImageCollectionVC: UICollectionViewDataSource {
         cell.delegate = self
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let photo = photos[indexPath.row]
-        
-        
-    }
-
 }
 extension ImageCollectionVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -165,28 +151,8 @@ extension ImageCollectionVC: SaveImageDelegate {
 }
 
 extension ImageCollectionVC: CellDelegate {
-    func didSelect(sender: UIButton) {
-        //showMenu()
-        print("hi")
-let optionsMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    func didSelect(for cell: PhotoCell) {
+        showMenu(for: cell)
 
-let edit = UIAlertAction(title: "Edit", style: .default) { [weak self] (action) in
-    self?.showViewController()
-}
-let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in
-    do{
-//        try self?.dataPersistance.delete(photo: indexPath.row)
-    }catch{
-        print("could not delete")
-    }
-}
-let cancel = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] (action) in
-    self?.dismiss(animated: true)
-}
-optionsMenu.addAction(edit)
-optionsMenu.addAction(delete)
-optionsMenu.addAction(cancel)
-
-present(optionsMenu, animated: true)
     }
 }

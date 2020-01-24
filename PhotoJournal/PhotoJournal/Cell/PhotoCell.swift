@@ -10,7 +10,8 @@ import UIKit
 import AVFoundation
 
 protocol CellDelegate: AnyObject {
-    func didSelect(sender: UIButton)
+    //func didSelect(sender: UIButton)
+    func didSelect(for cell: PhotoCell)
 }
 
 class PhotoCell: UICollectionViewCell {
@@ -39,6 +40,7 @@ class PhotoCell: UICollectionViewCell {
     }
     
     @IBAction func optionsButtonAction(_ sender: UIButton) {
-        delegate?.didSelect(sender: sender)
+        //delegate?.didSelect(sender: sender)
+        delegate?.didSelect(for: self)
     }
 }

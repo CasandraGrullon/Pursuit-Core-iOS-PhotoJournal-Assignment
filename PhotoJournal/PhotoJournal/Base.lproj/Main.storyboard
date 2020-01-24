@@ -52,9 +52,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w58-jQ-OcP">
-                                                    <rect key="frame" x="374" y="239" width="20" height="5.5"/>
+                                                    <rect key="frame" x="344" y="239" width="50" height="25.5"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="20" id="Ns8-iU-8nO"/>
+                                                        <constraint firstAttribute="width" constant="50" id="Ns8-iU-8nO"/>
+                                                        <constraint firstAttribute="height" constant="40" id="ywV-BL-5rU"/>
                                                     </constraints>
                                                     <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <state key="normal" backgroundImage="ellipsis" catalog="system"/>

@@ -29,6 +29,7 @@ class PhotoCell: UICollectionViewCell {
     
     func configureCell(for image: PhotoJournal) {
         imageNameLabel.text = image.name
+        
         dateCreatedLabel.text = dateFormatter.string(from: image.dateCreated)
         
         guard let image = UIImage(data: image.imageData) else {
@@ -36,8 +37,6 @@ class PhotoCell: UICollectionViewCell {
         }
         imageView.image = image
     }
-
-
     
     @IBAction func optionsButtonAction(_ sender: UIButton) {
         delegate?.didSelect(sender: sender)

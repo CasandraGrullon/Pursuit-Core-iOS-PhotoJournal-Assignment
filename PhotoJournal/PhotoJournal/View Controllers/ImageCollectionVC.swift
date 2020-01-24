@@ -70,6 +70,7 @@ class ImageCollectionVC: UIViewController {
         showViewController()
     }
     
+    //MARK: Show View Controller
     private func showViewController(_ photo: PhotoJournal? = nil) {
         guard let addEditVC = storyboard?.instantiateViewController(identifier: "AddEditImageVC") as? AddEditImageVC else {
             fatalError("could not downcast to AddEditImageVC")
@@ -79,11 +80,11 @@ class ImageCollectionVC: UIViewController {
         present(addEditVC, animated: true)
     }
     
+    //MARK: Show Menu
     private func showMenu(for cell: PhotoCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else {
             return
         }
-        
         let optionsMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let edit = UIAlertAction(title: "Edit", style: .default) { [weak self] (action) in
             self?.showViewController()
@@ -108,6 +109,7 @@ class ImageCollectionVC: UIViewController {
     
 }
 
+//MARK: Extensions
 extension ImageCollectionVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photos.count

@@ -16,6 +16,7 @@ enum DataPersistenceError: Error { // conforming to the Error protocol
   case deletingError(Error)
 }
 
+
 class PersistenceHelper {
     
   private var photos = [PhotoJournal]()

@@ -14,7 +14,7 @@ class ImageCollectionVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     private let dataPersistance = PersistenceHelper(filename: "images.plist")
-    
+        
     var photos = [PhotoJournal]() {
         didSet {
             collectionView.reloadData()
@@ -42,28 +42,29 @@ class ImageCollectionVC: UIViewController {
         }
     }
     
-    func appendPhoto() {
-        guard let image = selectedImage else {
-            print("image is nil")
-            return
-        }
-        let size = UIScreen.main.bounds.size
-        let rect = AVMakeRect(aspectRatio: image.size, insideRect: CGRect(origin: CGPoint.zero, size: size))
-        let smallImage = image.resizeImage(to: rect.size.width, height: rect.size.height)
-        guard let imageData = smallImage.jpegData(compressionQuality: 1.0) else {
-            return
-        }
-        
-        let photo = PhotoJournal(name: "" , imageData: imageData, dateCreated: Date())
-        photos.insert(photo, at: 0)
-        let indexPath = IndexPath(row: 0, section: 0)
-        collectionView.insertItems(at: [indexPath])
-        
-        do {
-            try dataPersistance.create(photo: photo)
-        } catch {
-            print("error saving \(error)")
-        }
+    private func appendPhoto() {
+            guard let image = selectedImage else {
+                print("image is nil")
+                return
+            }
+            let size = UIScreen.main.bounds.size
+            let rect = AVMakeRect(aspectRatio: image.size, insideRect: CGRect(origin: CGPoint.zero, size: size))
+            let smallImage = image.resizeImage(to: rect.size.width, height: rect.size.height)
+            guard let imageData = smallImage.jpegData(compressionQuality: 1.0) else {
+                return
+            }
+            
+            let photo = PhotoJournal(name: "" , imageData: imageData, dateCreated: Date())
+            photos.insert(photo, at: 0)
+            let indexPath = IndexPath(row: 0, section: 0)
+            collectionView.insertItems(at: [indexPath])
+            
+            do {
+                try dataPersistance.create(photo: photo)
+            } catch {
+                print("error saving \(error)")
+            }
+            
     }
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -95,7 +96,6 @@ class ImageCollectionVC: UIViewController {
         }
         let optionsMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let edit = UIAlertAction(title: "Edit", style: .default) { [weak self] (action) in
-            
             self?.showViewController(self?.photos[indexPath.row])
         }
         let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in
@@ -140,6 +140,30 @@ extension ImageCollectionVC: UICollectionViewDelegateFlowLayout {
         let itemWidth: CGFloat = maxWidth * 0.80
         return CGSize(width: itemWidth, height: itemWidth)  }
 }
+
+extension ImageCollectionVC: SaveImageDelegate {
+    func didSave(photo: PhotoJournal, state: PhotoState) {
+        if state == .addingNew {
+               photos.append(photo)
+                do {
+                    try dataPersistance.create(photo: photo)
+                    
+                } catch {
+                    print("could not create photo")
+                }
+        } else if state == .editing {
+            showViewController(photo)
+        }
+    
+    }
+}
+
+extension ImageCollectionVC: CellDelegate {
+    func didSelect(for cell: PhotoCell) {
+        showMenu(for: cell)
+    }
+}
+
 extension UIImage {
     func resizeImage(to width: CGFloat, height: CGFloat) -> UIImage {
         let size = CGSize(width: width, height: height)
@@ -147,23 +171,5 @@ extension UIImage {
         return renderer.image { (context) in
             self.draw(in: CGRect(origin: .zero, size: size))
         }
-    }
-}
-
-extension ImageCollectionVC: SaveImageDelegate {
-    func didSave(photo: PhotoJournal) {
-        photos.append(photo)
-        do {
-            try dataPersistance.create(photo: photo)
-            
-        } catch {
-            print("could not create photo")
-        }
-    }
-}
-
-extension ImageCollectionVC: CellDelegate {
-    func didSelect(for cell: PhotoCell) {
-        showMenu(for: cell)
     }
 }

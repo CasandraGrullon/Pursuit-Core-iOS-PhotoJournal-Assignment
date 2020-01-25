@@ -73,6 +73,26 @@ class PersistenceHelper {
     }
     return photos
   }
+    
+    @discardableResult
+    public func updateItems(_ olditem: PhotoJournal, _ newitem: PhotoJournal) -> Bool {
+        if let index = photos.firstIndex(of: olditem) {
+            let result = updateWithIndex(newitem, at: index)
+            return result
+        }
+        return false
+    }
+    
+    @discardableResult
+    public func updateWithIndex(_ item: PhotoJournal, at index: Int) -> Bool {
+        photos[index] = item
+        do {
+           try save()
+            return true
+        } catch {
+            return false
+        }
+    }
   
   public func delete(photo index: Int) throws {
     photos.remove(at: index)

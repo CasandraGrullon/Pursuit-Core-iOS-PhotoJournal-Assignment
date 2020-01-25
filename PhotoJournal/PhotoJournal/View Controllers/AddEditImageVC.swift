@@ -44,13 +44,15 @@ class AddEditImageVC: UIViewController {
         if let photo = photo {
             self.photo = photo
             textField.text = photo.name
+            delegate?.didSave(photo: photo)
             state = .editing
         } else {
+            savingImage()
             state = .addingNew
         }
     }
     
-    func savingImage() {
+    private func savingImage() {
         if state == .addingNew {
             guard let image = imageView.image else {
                 return
@@ -86,7 +88,7 @@ class AddEditImageVC: UIViewController {
     }
     
     @IBAction func saveButtonPressed(_ sender: UIButton) {
-        savingImage()
+        updateUI()
         dismiss(animated: true)
     }
     

@@ -78,6 +78,14 @@ class ImageCollectionVC: UIViewController {
         addEditVC.delegate = self
         addEditVC.photo = photo
         present(addEditVC, animated: true)
+        
+        if addEditVC.state == .editing {
+            addEditVC.photo = photo
+            addEditVC.imageView.image = UIImage(data: photo!.imageData)
+            addEditVC.textField.text = photo?.name
+        } else {
+            return
+        }
     }
     
     //MARK: Show Menu
@@ -87,7 +95,8 @@ class ImageCollectionVC: UIViewController {
         }
         let optionsMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let edit = UIAlertAction(title: "Edit", style: .default) { [weak self] (action) in
-            self?.showViewController()
+            
+            self?.showViewController(self?.photos[indexPath.row])
         }
         let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in
             do{
@@ -123,6 +132,7 @@ extension ImageCollectionVC: UICollectionViewDataSource {
         cell.delegate = self
         return cell
     }
+    
 }
 extension ImageCollectionVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -143,9 +153,9 @@ extension UIImage {
 extension ImageCollectionVC: SaveImageDelegate {
     func didSave(photo: PhotoJournal) {
         photos.append(photo)
-        
         do {
             try dataPersistance.create(photo: photo)
+            
         } catch {
             print("could not create photo")
         }
@@ -155,6 +165,5 @@ extension ImageCollectionVC: SaveImageDelegate {
 extension ImageCollectionVC: CellDelegate {
     func didSelect(for cell: PhotoCell) {
         showMenu(for: cell)
-
     }
 }

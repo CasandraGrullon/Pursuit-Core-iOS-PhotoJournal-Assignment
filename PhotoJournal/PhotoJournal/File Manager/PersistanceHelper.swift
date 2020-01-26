@@ -9,70 +9,69 @@
 import Foundation
 
 enum DataPersistenceError: Error { // conforming to the Error protocol
-  case savingError(Error) // associative value
-  case fileDoesNotExist(String)
-  case noData
-  case decodingError(Error)
-  case deletingError(Error)
+    case savingError(Error) // associative value
+    case fileDoesNotExist(String)
+    case noData
+    case decodingError(Error)
+    case deletingError(Error)
 }
 
 
 class PersistenceHelper {
     
-  private var photos = [PhotoJournal]()
-  
-  private var filename: String
-  
-  init(filename: String) {
-    self.filename = filename
-  }
-  
-  private func save() throws {
-     let url = FileManager.pathToDocumentsDirectory(with: filename)
+    private var photos = [PhotoJournal]()
     
-    do {
-      let data = try PropertyListEncoder().encode(photos)
-      
-      try data.write(to: url, options: .atomic)
-    } catch {
-      throw DataPersistenceError.savingError(error)
+    private var filename: String
+    
+    init(filename: String) {
+        self.filename = filename
     }
-  }
-  
-  public func reorder(photos: [PhotoJournal]) {
-    self.photos = photos
-    try? save()
-  }
     
-  public func create(photo: PhotoJournal) throws {
-    photos.append(photo)
-    
-    do {
-      try save()
-    } catch {
-      throw DataPersistenceError.savingError(error)
-    }
-  }
-
-  public func loadPhotos() throws -> [PhotoJournal] {
-    let url = FileManager.pathToDocumentsDirectory(with: filename)
-    
-    if FileManager.default.fileExists(atPath: url.path) {
-      if let data = FileManager.default.contents(atPath: url.path) {
+    private func save() throws {
         do {
-          photos = try PropertyListDecoder().decode([PhotoJournal].self, from: data)
+            let url = FileManager.pathToDocumentsDirectory(with: filename)
+            let data = try PropertyListEncoder().encode(photos)
+            
+            try data.write(to: url, options: .atomic)
         } catch {
-          throw DataPersistenceError.decodingError(error)
+            throw DataPersistenceError.savingError(error)
         }
-      } else {
-        throw DataPersistenceError.noData
-      }
     }
-    else {
-      throw DataPersistenceError.fileDoesNotExist(filename)
+    
+    public func reorder(photos: [PhotoJournal]) {
+        self.photos = photos
+        try? save()
     }
-    return photos
-  }
+    
+    public func create(photo: PhotoJournal) throws {
+        photos.append(photo)
+        
+        do {
+            try save()
+        } catch {
+            throw DataPersistenceError.savingError(error)
+        }
+    }
+    
+    public func loadPhotos() throws -> [PhotoJournal] {
+        let url = FileManager.pathToDocumentsDirectory(with: filename)
+        
+        if FileManager.default.fileExists(atPath: url.path) {
+            if let data = FileManager.default.contents(atPath: url.path) {
+                do {
+                    photos = try PropertyListDecoder().decode([PhotoJournal].self, from: data)
+                } catch {
+                    throw DataPersistenceError.decodingError(error)
+                }
+            } else {
+                throw DataPersistenceError.noData
+            }
+        }
+        else {
+            throw DataPersistenceError.fileDoesNotExist(filename)
+        }
+        return photos
+    }
     
     @discardableResult
     public func updateItems(_ olditem: PhotoJournal, _ newitem: PhotoJournal) -> Bool {
@@ -87,20 +86,20 @@ class PersistenceHelper {
     public func updateWithIndex(_ item: PhotoJournal, at index: Int) -> Bool {
         photos[index] = item
         do {
-           try save()
+            try save()
             return true
         } catch {
             return false
         }
     }
-  
-  public func delete(photo index: Int) throws {
-    photos.remove(at: index)
     
-    do {
-      try save()
-    } catch {
-      throw DataPersistenceError.deletingError(error)
+    public func delete(photo index: Int) throws {
+        photos.remove(at: index)
+        
+        do {
+            try save()
+        } catch {
+            throw DataPersistenceError.deletingError(error)
+        }
     }
-  }
 }

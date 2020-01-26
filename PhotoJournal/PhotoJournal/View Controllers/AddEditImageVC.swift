@@ -46,12 +46,8 @@ class AddEditImageVC: UIViewController {
             textField.text = photo.name
             imageView.image = UIImage(data: photo.imageData)
             delegate?.didSave(photo: photo, state: .editing)
-            //TODO: update here!!!!
-            //state = .editing
         } else {
-            return
-            //savingImage()
-            //state = .addingNew
+            state = .addingNew
         }
     }
     
@@ -73,7 +69,6 @@ class AddEditImageVC: UIViewController {
             return
         }
         delegate?.didSave(photo: pic, state: .addingNew)
-        
     }
     
     @IBAction func photoLibraryButtonPressed(_ sender: UIBarButtonItem) {

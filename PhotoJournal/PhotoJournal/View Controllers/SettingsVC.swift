@@ -10,21 +10,48 @@ import UIKit
 
 class SettingsVC: UIViewController {
 
+    var backgroundColor: UIColor? {
+        didSet {
+            UserPreference.shared.updateColor(with: backgroundColor!)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+    }
+
+    
+    @IBAction func backgroundColorButton(_ sender: UIButton) {
+        
+        switch sender.tag {
+        case 0 :
+            backgroundColor = sender.backgroundColor
+            UserPreference.shared.updateColor(with: backgroundColor!)
+        case 1 :
+            backgroundColor = sender.backgroundColor
+            UserPreference.shared.updateColor(with: backgroundColor!)
+        case 2:
+            backgroundColor = sender.backgroundColor
+            UserPreference.shared.updateColor(with: backgroundColor!)
+        case 3:
+            backgroundColor = sender.backgroundColor
+            UserPreference.shared.updateColor(with: backgroundColor!)
+        default:
+            backgroundColor = .white
+            UserPreference.shared.updateColor(with: backgroundColor!)
+        }
+        
+        
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    @IBAction func scrollDirectionButton(_ sender: UISegmentedControl) {
+        if sender.isEnabledForSegment(at: 0) {
+            
+        } else if sender.isEnabledForSegment(at: 1) {
+            
+        }
     }
-    */
-
+    
 }

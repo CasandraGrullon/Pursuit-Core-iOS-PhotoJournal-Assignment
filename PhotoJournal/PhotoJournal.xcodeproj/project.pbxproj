@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C62CF2B223D8DD2800816597 /* ImageKit in Frameworks */ = {isa = PBXBuildFile; productRef = C62CF2B123D8DD2800816597 /* ImageKit */; };
+		C6A7468523DE3BE0008392EF /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A7468423DE3BE0008392EF /* UserDefaults.swift */; };
 		C6E30D6923D88BE5007D952A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E30D6823D88BE5007D952A /* AppDelegate.swift */; };
 		C6E30D6B23D88BE5007D952A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E30D6A23D88BE5007D952A /* SceneDelegate.swift */; };
 		C6E30D6D23D88BE5007D952A /* ImageCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E30D6C23D88BE5007D952A /* ImageCollectionVC.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C6A7468423DE3BE0008392EF /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		C6E30D6523D88BE5007D952A /* PhotoJournal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6E30D6823D88BE5007D952A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6E30D6A23D88BE5007D952A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 			children = (
 				C6E30D7C23D8D564007D952A /* FileManager.swift */,
 				C6E30D7E23D8D578007D952A /* PersistanceHelper.swift */,
+				C6A7468423DE3BE0008392EF /* UserDefaults.swift */,
 			);
 			path = "File Manager";
 			sourceTree = "<group>";
@@ -198,6 +201,7 @@
 			files = (
 				C6E30D7D23D8D564007D952A /* FileManager.swift in Sources */,
 				C6FA719F23D8DBB500C052AB /* PhotoCell.swift in Sources */,
+				C6A7468523DE3BE0008392EF /* UserDefaults.swift in Sources */,
 				C6E30D6D23D88BE5007D952A /* ImageCollectionVC.swift in Sources */,
 				C6FA719A23D8DAAD00C052AB /* AddEditImageVC.swift in Sources */,
 				C6E30D8223D8D7D9007D952A /* PhotoJournal.swift in Sources */,

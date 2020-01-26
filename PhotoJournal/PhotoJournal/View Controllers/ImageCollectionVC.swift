@@ -14,7 +14,7 @@ class ImageCollectionVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     private let dataPersistance = PersistenceHelper(filename: "images.plist")
-        
+    
     var photos = [PhotoJournal]() {
         didSet {
             collectionView.reloadData()
@@ -43,28 +43,28 @@ class ImageCollectionVC: UIViewController {
     }
     
     private func appendPhoto() {
-            guard let image = selectedImage else {
-                print("image is nil")
-                return
-            }
-            let size = UIScreen.main.bounds.size
-            let rect = AVMakeRect(aspectRatio: image.size, insideRect: CGRect(origin: CGPoint.zero, size: size))
-            let smallImage = image.resizeImage(to: rect.size.width, height: rect.size.height)
-            guard let imageData = smallImage.jpegData(compressionQuality: 1.0) else {
-                return
-            }
-            
-            let photo = PhotoJournal(name: "" , imageData: imageData, dateCreated: Date())
-            photos.insert(photo, at: 0)
-            let indexPath = IndexPath(row: 0, section: 0)
-            collectionView.insertItems(at: [indexPath])
-            
-            do {
-                try dataPersistance.create(photo: photo)
-            } catch {
-                print("error saving \(error)")
-            }
-            
+        guard let image = selectedImage else {
+            print("image is nil")
+            return
+        }
+        let size = UIScreen.main.bounds.size
+        let rect = AVMakeRect(aspectRatio: image.size, insideRect: CGRect(origin: CGPoint.zero, size: size))
+        let smallImage = image.resizeImage(to: rect.size.width, height: rect.size.height)
+        guard let imageData = smallImage.jpegData(compressionQuality: 1.0) else {
+            return
+        }
+        
+        let photo = PhotoJournal(name: "" , imageData: imageData, dateCreated: Date())
+        photos.insert(photo, at: 0)
+        let indexPath = IndexPath(row: 0, section: 0)
+        collectionView.insertItems(at: [indexPath])
+        
+        do {
+            try dataPersistance.create(photo: photo)
+        } catch {
+            print("error saving \(error)")
+        }
+        
     }
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -81,13 +81,26 @@ class ImageCollectionVC: UIViewController {
         present(addEditVC, animated: true)
         
         if addEditVC.state == .editing {
-            addEditVC.photo = photo
-            addEditVC.imageView.image = UIImage(data: photo!.imageData)
-            addEditVC.textField.text = photo?.name
+            let index = photos.firstIndex { $0.imageData == addEditVC.photo?.imageData }
+            guard let itemIndex = index else { return }
+            let oldPhoto = photos[itemIndex]
+            
+            guard let photo = addEditVC.photo else {
+                return
+            }
+            addEditVC.imageView.image = UIImage(data: photo.imageData)
+            addEditVC.textField.text = photo.name
+            update(old: oldPhoto, with: photo)
         } else {
             return
         }
     }
+    private func update(old: PhotoJournal, with new: PhotoJournal) {
+        dataPersistance.updateItems(old, new)
+        loadPhotos()
+        
+    }
+    
     
     //MARK: Show Menu
     private func showMenu(for cell: PhotoCell) {
@@ -144,17 +157,16 @@ extension ImageCollectionVC: UICollectionViewDelegateFlowLayout {
 extension ImageCollectionVC: SaveImageDelegate {
     func didSave(photo: PhotoJournal, state: PhotoState) {
         if state == .addingNew {
-               photos.append(photo)
-                do {
-                    try dataPersistance.create(photo: photo)
-                    
-                } catch {
-                    print("could not create photo")
-                }
+            photos.append(photo)
+            do {
+                try dataPersistance.create(photo: photo)
+            } catch {
+                print("could not create photo")
+            }
         } else if state == .editing {
             showViewController(photo)
         }
-    
+        
     }
 }
 

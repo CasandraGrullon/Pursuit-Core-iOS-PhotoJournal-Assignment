@@ -27,10 +27,13 @@ class ImageCollectionVC: UIViewController {
         }
     }
     
+    var state = PhotoState.addingNew
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        view.backgroundColor = UIColor(named: UserPreference.shared.getColor() ?? ".white")
 //        collectionView.backgroundColor = UIColor(named: UserPreference.shared.getColor() ?? ".white")
+        print(dataPersistance)
         loadPhotos()
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -67,6 +70,7 @@ class ImageCollectionVC: UIViewController {
     }
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        state = .addingNew
         showViewController()
     }
     
@@ -77,6 +81,7 @@ class ImageCollectionVC: UIViewController {
         }
         addEditVC.delegate = self
         addEditVC.photo = photo
+        addEditVC.state = .editing
         present(addEditVC, animated: true)
         
         if addEditVC.state == .editing {
@@ -87,11 +92,9 @@ class ImageCollectionVC: UIViewController {
             guard let photo = addEditVC.photo else {
                 return
             }
-            addEditVC.imageView.image = UIImage(data: photo.imageData)
-            addEditVC.textField.text = photo.name
             update(old: oldPhoto, with: photo)
-            photos.remove(at: itemIndex)
         } else {
+            addEditVC.state = .addingNew
             return
         }
     }
@@ -117,6 +120,7 @@ class ImageCollectionVC: UIViewController {
         }
         let optionsMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let edit = UIAlertAction(title: "Edit", style: .default) { [weak self] (action) in
+            self?.state = .editing
             self?.showViewController(self?.photos[indexPath.row])
         }
         let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) in

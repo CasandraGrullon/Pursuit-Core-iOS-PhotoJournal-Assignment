@@ -30,6 +30,7 @@ class PersistenceHelper {
     private func save() throws {
         do {
             let url = FileManager.pathToDocumentsDirectory(with: filename)
+            print(url)
             let data = try PropertyListEncoder().encode(photos)
             
             try data.write(to: url, options: .atomic)
@@ -79,6 +80,12 @@ class PersistenceHelper {
             let result = updateWithIndex(newitem, at: index)
             return result
         }
+        do {
+            try save()
+        }catch {
+            print("update error")
+        }
+            
         return false
     }
     

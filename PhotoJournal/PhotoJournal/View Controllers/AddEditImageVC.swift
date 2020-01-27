@@ -29,7 +29,7 @@ class AddEditImageVC: UIViewController {
     
     private let imagePicker = UIImagePickerController()
     
-    public private(set) var state = PhotoState.addingNew
+    public var state = PhotoState.addingNew
     
     var photo: PhotoJournal?
     
@@ -37,21 +37,32 @@ class AddEditImageVC: UIViewController {
         super.viewDidLoad()
         textField.delegate = self
         imagePicker.delegate = self
-        //savingImage(for: state)
         updateUI()
     }
     
     func updateUI() {
-        if let photo = photo {
-            self.photo = photo
-            textField.text = photo.name
-            imageView.image = UIImage(data: photo.imageData)
-            delegate?.didSave(photo: photo, state: .editing)
-        } else {
-            state = .addingNew
-            savingImage(for: .addingNew)
+        if state == .editing {
+            if let photo = photo {
+                self.photo = photo
+                textField.text = photo.name
+                imageView.image = UIImage(data: photo.imageData)
+                delegate?.didSave(photo: photo, state: .editing)
+                cameraButtonOutlet.isEnabled = false
+                photoLibraryOutlet.isEnabled = false
+                state = .editing
+            }
+            else {
+                state = .addingNew
+            }
+            } else {
+                state = .addingNew
+                savingImage(for: .addingNew)
+                cameraButtonOutlet.isEnabled = true
+                cameraButtonOutlet.isEnabled = true
+            }
+
         }
-    }
+    
     
     private func savingImage(for state: PhotoState) {
             guard let image = imageView.image else {

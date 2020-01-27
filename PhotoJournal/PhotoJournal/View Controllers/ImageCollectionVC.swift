@@ -29,7 +29,7 @@ class ImageCollectionVC: UIViewController {
     
     var backgroundColor: UIColor? {
         didSet{
-            backgroundColor = UIColor(named: UserPreference.shared.getColor() ?? "White")
+            
         }
     }
     
@@ -38,7 +38,6 @@ class ImageCollectionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadPhotos()
-        collectionView.backgroundView?.backgroundColor = backgroundColor
         collectionView.dataSource = self
         collectionView.delegate = self
     }
@@ -78,7 +77,7 @@ class ImageCollectionVC: UIViewController {
         showViewController()
     }
     
-    //MARK: Show View Controller
+    //MARK: Show AddEdit View Controller
     private func showViewController(_ photo: PhotoJournal? = nil) {
         guard let addEditVC = storyboard?.instantiateViewController(identifier: "AddEditImageVC") as? AddEditImageVC else {
             fatalError("could not downcast to AddEditImageVC")
@@ -102,15 +101,7 @@ class ImageCollectionVC: UIViewController {
             return
         }
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let settingsVC = segue.destination as? SettingsVC else {
-            fatalError("could not segue")
-        }
-        //backgroundColor = UIColor(named: settingsVC.backgroundColor ?? ".white")
-        settingsVC.settingDelegate = self
-    }
-    
+        
     private func update(old: PhotoJournal, with new: PhotoJournal) {
         dataPersistance.updateItems(old, new)
         loadPhotos()
@@ -144,6 +135,13 @@ class ImageCollectionVC: UIViewController {
         present(optionsMenu, animated: true, completion: nil)
     }
     
+    //MARK: Segue to Settings
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let settingsVC = segue.destination as? SettingsVC else {
+            fatalError("could not segue to settings")
+        }
+        settingsVC.settingDelegate = self
+    }
 }
 
 //MARK: Extensions
@@ -190,6 +188,11 @@ extension ImageCollectionVC: CellDelegate {
         showMenu(for: cell)
     }
 }
+extension ImageCollectionVC: SettingDelegate {
+    func didUpdateColor(color: UIColor) {
+        backgroundColor = color
+    }
+}
 
 extension UIImage {
     func resizeImage(to width: CGFloat, height: CGFloat) -> UIImage {
@@ -201,11 +204,4 @@ extension UIImage {
     }
 }
 
-extension ImageCollectionVC: SettingsDelegate {
-    func didUpdate(color: String) {
-        backgroundColor = UIColor(named: color)
-        
-    }
-    
-    
-}
+

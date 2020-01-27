@@ -9,15 +9,9 @@
 import Foundation
 import UIKit
 
-enum Color: String {
-    case darkGray = ".darkGray"
-    case pink = ".pink"
-    case lightGray = ".lightGray"
-    case white = ".white"
-}
-enum ScrollDirection: Int {
-    case horizontal = 0
-    case vertical = 1
+enum ScrollDirection: String {
+    case horizontal = "horizontal"
+    case vertical = "vertical"
 }
 
 struct UserPreferenceKey {
@@ -31,11 +25,11 @@ class UserPreference {
     
     static let shared = UserPreference()
     
-    func updateColor(with color: Color.RawValue) {
+    func updateColor(with color: Int) {
         UserDefaults.standard.set(color, forKey: UserPreferenceKey.color)
     }
-    func getColor() -> Color.RawValue? {
-        guard let bgColor = UserDefaults.standard.object(forKey: UserPreferenceKey.color) as? String else {
+    func getColor() -> Int? {
+        guard let bgColor = UserDefaults.standard.object(forKey: UserPreferenceKey.color) as? Int else {
             return nil
         }
         return bgColor

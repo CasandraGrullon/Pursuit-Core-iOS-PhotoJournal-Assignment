@@ -8,42 +8,24 @@
 
 import UIKit
 
-protocol SettingsDelegate: AnyObject {
-    func didUpdate(color: String)
+protocol SettingDelegate: AnyObject {
+    func didUpdateColor(color: UIColor)
 }
 
 class SettingsVC: UIViewController {
 
-    var settingDelegate: SettingsDelegate?
-    var backgroundColor: String? {
-        didSet {
-            UserPreference.shared.updateColor(with: backgroundColor ?? "white")
-        }
-    }
+    var backgroundColor: UIColor?
+    weak var settingDelegate: SettingDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
     
     @IBAction func backgroundColorButton(_ sender: UIButton) {
-        switch sender.tag {
-        case 0 :
-            backgroundColor = sender.backgroundColor?.description
-            UserPreference.shared.updateColor(with: backgroundColor ?? "Dark Gray Color")
-        case 1 :
-            backgroundColor = sender.backgroundColor?.description
-            UserPreference.shared.updateColor(with: backgroundColor ?? "pink")
-        case 2:
-            backgroundColor = sender.backgroundColor?.description
-            UserPreference.shared.updateColor(with: backgroundColor ?? "lightGray")
-        case 3:
-            backgroundColor = sender.backgroundColor?.description
-            UserPreference.shared.updateColor(with: backgroundColor ?? "white")
-        default:
-            backgroundColor = "white"
-            UserPreference.shared.updateColor(with: backgroundColor ?? "white")
-        }
+        backgroundColor = sender.tintColor
+        settingDelegate?.didUpdateColor(color: backgroundColor ?? .white)
+        UserPreference.shared.updateColor(with: sender.tag)
+        
     }
     
     @IBAction func scrollDirectionButton(_ sender: UISegmentedControl) {
@@ -53,5 +35,6 @@ class SettingsVC: UIViewController {
             
         }
     }
+    
     
 }

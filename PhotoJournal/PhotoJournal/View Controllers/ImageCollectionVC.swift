@@ -29,6 +29,8 @@ class ImageCollectionVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        view.backgroundColor = UIColor(named: UserPreference.shared.getColor() ?? ".white")
+//        collectionView.backgroundColor = UIColor(named: UserPreference.shared.getColor() ?? ".white")
         loadPhotos()
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -53,18 +55,15 @@ class ImageCollectionVC: UIViewController {
         guard let imageData = smallImage.jpegData(compressionQuality: 1.0) else {
             return
         }
-        
         let photo = PhotoJournal(name: "" , imageData: imageData, dateCreated: Date())
         photos.insert(photo, at: 0)
         let indexPath = IndexPath(row: 0, section: 0)
         collectionView.insertItems(at: [indexPath])
-        
         do {
             try dataPersistance.create(photo: photo)
         } catch {
             print("error saving \(error)")
         }
-        
     }
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -91,6 +90,7 @@ class ImageCollectionVC: UIViewController {
             addEditVC.imageView.image = UIImage(data: photo.imageData)
             addEditVC.textField.text = photo.name
             update(old: oldPhoto, with: photo)
+            photos.remove(at: itemIndex)
         } else {
             return
         }
@@ -98,8 +98,16 @@ class ImageCollectionVC: UIViewController {
     private func update(old: PhotoJournal, with new: PhotoJournal) {
         dataPersistance.updateItems(old, new)
         loadPhotos()
-        
     }
+    
+//    @IBAction func settingsUpdated(segue: UIStoryboardSegue) {
+//        guard let settingsVC = segue.source as? SettingsVC else {
+//            fatalError("could not unwind segue")
+//        }
+//        view.backgroundColor = UIColor(named: settingsVC.backgroundColor ?? ".white")
+//        collectionView.backgroundColor = UIColor(named: settingsVC.backgroundColor ?? ".white")
+//        
+//    }
     
     
     //MARK: Show Menu

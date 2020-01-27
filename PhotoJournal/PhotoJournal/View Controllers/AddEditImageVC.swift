@@ -37,6 +37,7 @@ class AddEditImageVC: UIViewController {
         super.viewDidLoad()
         textField.delegate = self
         imagePicker.delegate = self
+        //savingImage(for: state)
         updateUI()
     }
     
@@ -48,27 +49,26 @@ class AddEditImageVC: UIViewController {
             delegate?.didSave(photo: photo, state: .editing)
         } else {
             state = .addingNew
+            savingImage(for: .addingNew)
         }
     }
     
-    private func savingImage() {
-        guard let image = imageView.image else {
-            return
-        }
-        let size = UIScreen.main.bounds.size
-        
-        let rect = AVMakeRect(aspectRatio: image.size, insideRect: CGRect(origin: CGPoint.zero, size: size))
-        let resizeImage = image.resizeImage(to: rect.size.width, height: rect.size.height)
-        
-        guard let photoData = resizeImage.jpegData(compressionQuality: 1.0) else {
-            return
-        }
-        photo = PhotoJournal(name: textField.text ?? "", imageData: photoData, dateCreated: Date())
-        guard let pic = photo else {
-            print("could not get pic")
-            return
-        }
-        delegate?.didSave(photo: pic, state: .addingNew)
+    private func savingImage(for state: PhotoState) {
+            guard let image = imageView.image else {
+                return
+            }
+            let size = UIScreen.main.bounds.size
+            let rect = AVMakeRect(aspectRatio: image.size, insideRect: CGRect(origin: CGPoint.zero, size: size))
+            let resizeImage = image.resizeImage(to: rect.size.width, height: rect.size.height)
+            guard let photoData = resizeImage.jpegData(compressionQuality: 1.0) else {
+                return
+            }
+            photo = PhotoJournal(name: textField.text ?? "", imageData: photoData, dateCreated: Date())
+            guard let pic = photo else {
+                print("could not get pic")
+                return
+            }
+            delegate?.didSave(photo: pic, state: state)
     }
     
     @IBAction func photoLibraryButtonPressed(_ sender: UIBarButtonItem) {
@@ -84,11 +84,7 @@ class AddEditImageVC: UIViewController {
     }
     
     @IBAction func saveButtonPressed(_ sender: UIButton) {
-        if state == .addingNew {
-            savingImage()
-        } else if state == .editing {
-            updateUI()
-        }
+        updateUI()
         dismiss(animated: true)
     }
     

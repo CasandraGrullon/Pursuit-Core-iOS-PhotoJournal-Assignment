@@ -95,7 +95,6 @@ class PersistenceHelper {
     
     public func delete(photo index: Int) throws {
         photos.remove(at: index)
-        
         do {
             try save()
         } catch {

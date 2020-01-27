@@ -31,11 +31,11 @@ class UserPreference {
     
     static let shared = UserPreference()
     
-    func updateColor(with color: UIColor) {
+    func updateColor(with color: Color.RawValue) {
         UserDefaults.standard.set(color, forKey: UserPreferenceKey.color)
     }
-    func getColor() -> UIColor? {
-        guard let bgColor = UserDefaults.standard.object(forKey: UserPreferenceKey.color) as? UIColor else {
+    func getColor() -> Color.RawValue? {
+        guard let bgColor = UserDefaults.standard.object(forKey: UserPreferenceKey.color) as? String else {
             return nil
         }
         return bgColor

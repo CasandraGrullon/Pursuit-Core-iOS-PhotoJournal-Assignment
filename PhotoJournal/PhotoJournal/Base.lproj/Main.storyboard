@@ -113,7 +113,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="RlK-ko-QNj">
-                        <barButtonItem key="rightBarButtonItem" image="line.horizontal.3" catalog="system" id="HvT-KW-lYh"/>
+                        <barButtonItem key="rightBarButtonItem" image="line.horizontal.3" catalog="system" id="HvT-KW-lYh">
+                            <connections>
+                                <segue destination="sNi-Hm-bm9" kind="show" id="bU0-70-7O0"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="T6Z-pE-nqU" id="jic-JT-MtC"/>
@@ -132,17 +136,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mYI-cf-r81">
-                                <rect key="frame" x="0.0" y="44" width="414" height="166"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="166"/>
                                 <color key="backgroundColor" red="0.81391446572269888" green="0.81391446572269888" blue="0.81391446572269888" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Background Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bId-zp-4Ac">
-                                <rect key="frame" x="10" y="54" width="394" height="24"/>
+                                <rect key="frame" x="10" y="98" width="394" height="24"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LQG-EV-KK3">
-                                <rect key="frame" x="10" y="99" width="80" height="57.5"/>
+                                <rect key="frame" x="10" y="143" width="80" height="57.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="40S-AM-Z3i"/>
                                     <constraint firstAttribute="width" constant="80" id="hhK-Dp-AwT"/>
@@ -154,7 +158,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ffo-6J-2XK">
-                                <rect key="frame" x="100" y="99" width="80" height="57.5"/>
+                                <rect key="frame" x="100" y="143" width="80" height="57.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="DeO-gJ-cxy"/>
                                     <constraint firstAttribute="height" constant="60" id="M63-5N-L71"/>
@@ -166,7 +170,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nJS-Te-NKY">
-                                <rect key="frame" x="190" y="99" width="80" height="57.5"/>
+                                <rect key="frame" x="190" y="143" width="80" height="57.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="9n9-M5-QT6"/>
                                     <constraint firstAttribute="width" constant="80" id="Apa-uI-79P"/>
@@ -178,13 +182,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scroll Direction" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m5t-f4-QzB">
-                                <rect key="frame" x="10" y="220" width="394" height="24"/>
+                                <rect key="frame" x="10" y="264" width="394" height="24"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hMm-ie-aCU">
-                                <rect key="frame" x="10" y="254" width="244" height="32"/>
+                                <rect key="frame" x="10" y="298" width="244" height="32"/>
                                 <segments>
                                     <segment title="" image="arrow.right" catalog="system"/>
                                     <segment title="" image="arrow.down" catalog="system"/>
@@ -194,7 +198,7 @@
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8v8-I7-Zp9">
-                                <rect key="frame" x="280" y="99" width="80" height="57.5"/>
+                                <rect key="frame" x="280" y="143" width="80" height="57.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="jf1-VL-GUp"/>
                                     <constraint firstAttribute="height" constant="60" id="mon-4z-kzd"/>
@@ -206,10 +210,6 @@
                                 <connections>
                                     <action selector="backgroundColorButton:" destination="sNi-Hm-bm9" eventType="touchUpInside" id="qWe-as-4mr"/>
                                 </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mZF-aV-siP">
-                                <rect key="frame" x="181.5" y="433" width="51" height="30"/>
-                                <state key="normal" title="Update"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -234,8 +234,6 @@
                             <constraint firstItem="mYI-cf-r81" firstAttribute="leading" secondItem="mc0-AJ-4is" secondAttribute="leading" id="gwf-fj-Q9d"/>
                             <constraint firstItem="8v8-I7-Zp9" firstAttribute="top" secondItem="bId-zp-4Ac" secondAttribute="bottom" constant="20" id="s84-DR-R3i"/>
                             <constraint firstItem="ffo-6J-2XK" firstAttribute="leading" secondItem="LQG-EV-KK3" secondAttribute="trailing" constant="10" id="tBb-GS-df5"/>
-                            <constraint firstItem="mZF-aV-siP" firstAttribute="centerY" secondItem="sj9-w5-iJa" secondAttribute="centerY" id="uY6-aV-5Kr"/>
-                            <constraint firstItem="mZF-aV-siP" firstAttribute="centerX" secondItem="sj9-w5-iJa" secondAttribute="centerX" id="xR6-hi-LSf"/>
                             <constraint firstItem="mc0-AJ-4is" firstAttribute="trailing" secondItem="hMm-ie-aCU" secondAttribute="trailing" constant="160" id="z1Y-au-gqi"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="mc0-AJ-4is"/>

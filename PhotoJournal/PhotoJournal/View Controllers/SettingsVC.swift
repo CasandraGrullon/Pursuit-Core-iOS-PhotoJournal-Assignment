@@ -8,17 +8,21 @@
 
 import UIKit
 
+protocol SettingsDelegate: AnyObject {
+    func didUpdate(color: String)
+}
+
 class SettingsVC: UIViewController {
 
+    var settingDelegate: SettingsDelegate?
     var backgroundColor: String? {
         didSet {
-            UserPreference.shared.updateColor(with: backgroundColor ?? ".white")
+            UserPreference.shared.updateColor(with: backgroundColor ?? "white")
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: UserPreference.shared.getColor() ?? ".white")
     }
 
     
@@ -26,22 +30,21 @@ class SettingsVC: UIViewController {
         switch sender.tag {
         case 0 :
             backgroundColor = sender.backgroundColor?.description
-            UserPreference.shared.updateColor(with: backgroundColor ?? ".darkGray")
+            UserPreference.shared.updateColor(with: backgroundColor ?? "Dark Gray Color")
         case 1 :
             backgroundColor = sender.backgroundColor?.description
-            UserPreference.shared.updateColor(with: backgroundColor ?? ".pink")
+            UserPreference.shared.updateColor(with: backgroundColor ?? "pink")
         case 2:
             backgroundColor = sender.backgroundColor?.description
-            UserPreference.shared.updateColor(with: backgroundColor ?? ".lightGray")
+            UserPreference.shared.updateColor(with: backgroundColor ?? "lightGray")
         case 3:
             backgroundColor = sender.backgroundColor?.description
-            UserPreference.shared.updateColor(with: backgroundColor ?? ".white")
+            UserPreference.shared.updateColor(with: backgroundColor ?? "white")
         default:
-            backgroundColor = ".white"
-            UserPreference.shared.updateColor(with: backgroundColor ?? ".white")
+            backgroundColor = "white"
+            UserPreference.shared.updateColor(with: backgroundColor ?? "white")
         }
     }
-    
     
     @IBAction func scrollDirectionButton(_ sender: UISegmentedControl) {
         if sender.isEnabledForSegment(at: 0) {
@@ -50,7 +53,5 @@ class SettingsVC: UIViewController {
             
         }
     }
-    
-    
     
 }

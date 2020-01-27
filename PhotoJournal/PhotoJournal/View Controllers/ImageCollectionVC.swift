@@ -27,14 +27,18 @@ class ImageCollectionVC: UIViewController {
         }
     }
     
+    var backgroundColor: UIColor? {
+        didSet{
+            backgroundColor = UIColor(named: UserPreference.shared.getColor() ?? "White")
+        }
+    }
+    
     var state = PhotoState.addingNew
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        view.backgroundColor = UIColor(named: UserPreference.shared.getColor() ?? ".white")
-//        collectionView.backgroundColor = UIColor(named: UserPreference.shared.getColor() ?? ".white")
-        print(dataPersistance)
         loadPhotos()
+        collectionView.backgroundView?.backgroundColor = backgroundColor
         collectionView.dataSource = self
         collectionView.delegate = self
     }
@@ -98,21 +102,20 @@ class ImageCollectionVC: UIViewController {
             return
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let settingsVC = segue.destination as? SettingsVC else {
+            fatalError("could not segue")
+        }
+        //backgroundColor = UIColor(named: settingsVC.backgroundColor ?? ".white")
+        settingsVC.settingDelegate = self
+    }
+    
     private func update(old: PhotoJournal, with new: PhotoJournal) {
         dataPersistance.updateItems(old, new)
         loadPhotos()
     }
-    
-//    @IBAction func settingsUpdated(segue: UIStoryboardSegue) {
-//        guard let settingsVC = segue.source as? SettingsVC else {
-//            fatalError("could not unwind segue")
-//        }
-//        view.backgroundColor = UIColor(named: settingsVC.backgroundColor ?? ".white")
-//        collectionView.backgroundColor = UIColor(named: settingsVC.backgroundColor ?? ".white")
-//        
-//    }
-    
-    
+
     //MARK: Show Menu
     private func showMenu(for cell: PhotoCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else {
@@ -158,6 +161,7 @@ extension ImageCollectionVC: UICollectionViewDataSource {
         return cell
     }
     
+    
 }
 extension ImageCollectionVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -178,7 +182,6 @@ extension ImageCollectionVC: SaveImageDelegate {
         } else if state == .editing {
             showViewController(photo)
         }
-        
     }
 }
 
@@ -196,4 +199,13 @@ extension UIImage {
             self.draw(in: CGRect(origin: .zero, size: size))
         }
     }
+}
+
+extension ImageCollectionVC: SettingsDelegate {
+    func didUpdate(color: String) {
+        backgroundColor = UIColor(named: color)
+        
+    }
+    
+    
 }

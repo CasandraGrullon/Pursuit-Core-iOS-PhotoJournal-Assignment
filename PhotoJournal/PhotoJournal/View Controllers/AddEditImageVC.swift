@@ -54,32 +54,30 @@ class AddEditImageVC: UIViewController {
             else {
                 state = .addingNew
             }
-            } else {
-                state = .addingNew
-                savingImage(for: .addingNew)
-                cameraButtonOutlet.isEnabled = true
-                cameraButtonOutlet.isEnabled = true
-            }
-
+        } else {
+            state = .addingNew
+            savingImage(for: .addingNew)
+            cameraButtonOutlet.isEnabled = true
+            cameraButtonOutlet.isEnabled = true
         }
-    
+    }
     
     private func savingImage(for state: PhotoState) {
-            guard let image = imageView.image else {
-                return
-            }
-            let size = UIScreen.main.bounds.size
-            let rect = AVMakeRect(aspectRatio: image.size, insideRect: CGRect(origin: CGPoint.zero, size: size))
-            let resizeImage = image.resizeImage(to: rect.size.width, height: rect.size.height)
-            guard let photoData = resizeImage.jpegData(compressionQuality: 1.0) else {
-                return
-            }
-            photo = PhotoJournal(name: textField.text ?? "", imageData: photoData, dateCreated: Date())
-            guard let pic = photo else {
-                print("could not get pic")
-                return
-            }
-            delegate?.didSave(photo: pic, state: state)
+        guard let image = imageView.image else {
+            return
+        }
+        let size = UIScreen.main.bounds.size
+        let rect = AVMakeRect(aspectRatio: image.size, insideRect: CGRect(origin: CGPoint.zero, size: size))
+        let resizeImage = image.resizeImage(to: rect.size.width, height: rect.size.height)
+        guard let photoData = resizeImage.jpegData(compressionQuality: 1.0) else {
+            return
+        }
+        photo = PhotoJournal(name: textField.text ?? "", imageData: photoData, dateCreated: Date())
+        guard let pic = photo else {
+            print("could not get pic")
+            return
+        }
+        delegate?.didSave(photo: pic, state: state)
     }
     
     @IBAction func photoLibraryButtonPressed(_ sender: UIBarButtonItem) {

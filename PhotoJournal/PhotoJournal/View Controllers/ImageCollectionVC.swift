@@ -41,14 +41,14 @@ class ImageCollectionVC: UIViewController {
         loadPhotos()
         collectionView.dataSource = self
         collectionView.delegate = self
-        getColor()
+        getUserPreferences()
     }
     
-    private func getColor() {
+    private func getUserPreferences() {
         let button = UserPreference.shared.getColor()
         switch button{
         case 0:
-           backgroundColor = .darkGray
+            backgroundColor = .darkGray
             collectionView.backgroundColor = backgroundColor
             view.backgroundColor = backgroundColor
         case 1:
@@ -56,7 +56,7 @@ class ImageCollectionVC: UIViewController {
             collectionView.backgroundColor = backgroundColor
             view.backgroundColor = backgroundColor
         case 2:
-           backgroundColor = .lightGray
+            backgroundColor = .lightGray
             collectionView.backgroundColor = backgroundColor
             view.backgroundColor = backgroundColor
         case 3:
@@ -68,6 +68,23 @@ class ImageCollectionVC: UIViewController {
             collectionView.backgroundColor = backgroundColor
             view.backgroundColor = backgroundColor
         }
+        guard let collectionScroll = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return
+        }
+        let direction = UserPreference.shared.getDirection() ?? "vertical"
+        
+        switch ScrollDirection(rawValue: direction) {
+        case .vertical:
+            collectionScroll.scrollDirection = .vertical
+        case .horizontal:
+            collectionScroll.scrollDirection = .horizontal
+        default:
+            collectionScroll.scrollDirection = .vertical
+        }
+        
+        
+        
+        
     }
     
     func loadPhotos() {
@@ -129,12 +146,12 @@ class ImageCollectionVC: UIViewController {
             return
         }
     }
-        
+    
     private func update(old: PhotoJournal, with new: PhotoJournal) {
         dataPersistance.updateItems(old, new)
         loadPhotos()
     }
-
+    
     //MARK: Show Menu
     private func showMenu(for cell: PhotoCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else {
@@ -217,6 +234,17 @@ extension ImageCollectionVC: CellDelegate {
     }
 }
 extension ImageCollectionVC: SettingDelegate {
+    func didUpdateDirection(direction: ScrollDirection) {
+        guard let collectionViewScroll = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        
+        switch direction {
+        case .horizontal:
+            collectionViewScroll.scrollDirection = .horizontal
+        case .vertical:
+            collectionViewScroll.scrollDirection = .vertical
+        }
+    }
+    
     func didUpdateColor(color: UIColor) {
         collectionView.backgroundColor = color
         view.backgroundColor = color

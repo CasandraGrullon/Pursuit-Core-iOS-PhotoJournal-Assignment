@@ -9,11 +9,6 @@
 import Foundation
 import UIKit
 
-enum ScrollDirection: String {
-    case horizontal = "horizontal"
-    case vertical = "vertical"
-}
-
 struct UserPreferenceKey {
     static let color = "Color"
     static let scrollDirection = "Scroll Direction"
@@ -34,6 +29,14 @@ class UserPreference {
         }
         return bgColor
     }
-    
+    func updateDirection(with direction: ScrollDirection) {
+        UserDefaults.standard.set(direction, forKey: UserPreferenceKey.scrollDirection)
+    }
+    func getDirection() -> String? {
+        guard let direction = UserDefaults.standard.object(forKey: UserPreferenceKey.scrollDirection) as? String else {
+            return nil
+        }
+        return direction
+    }
     
 }

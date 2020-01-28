@@ -7,15 +7,20 @@
 //
 
 import UIKit
-
+enum ScrollDirection: String {
+    case horizontal = "horizontal"
+    case vertical = "vertical"
+}
 protocol SettingDelegate: AnyObject {
     func didUpdateColor(color: UIColor)
+    func didUpdateDirection(direction: ScrollDirection)
 }
 
 class SettingsVC: UIViewController {
 
     var backgroundColor: UIColor?
     weak var settingDelegate: SettingDelegate?
+    var direction = ScrollDirection.vertical
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,11 +33,16 @@ class SettingsVC: UIViewController {
     }
     
     @IBAction func scrollDirectionButton(_ sender: UISegmentedControl) {
-        if sender.isEnabledForSegment(at: 0) {
-            
-        } else if sender.isEnabledForSegment(at: 1) {
-            
+        switch sender.tag {
+        case 0:
+            direction = .vertical
+        case 1:
+            direction = .horizontal
+        default:
+            direction = .vertical
         }
+        UserPreference.shared.updateDirection(with: direction)
+        settingDelegate?.didUpdateDirection(direction: direction)
     }
     
     

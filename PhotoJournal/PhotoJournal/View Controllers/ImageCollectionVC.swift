@@ -13,6 +13,7 @@ class ImageCollectionVC: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    
     private let dataPersistance = PersistenceHelper(filename: "images.plist")
     
     var photos = [PhotoJournal]() {
@@ -68,6 +69,7 @@ class ImageCollectionVC: UIViewController {
             collectionView.backgroundColor = backgroundColor
             view.backgroundColor = backgroundColor
         }
+        
         guard let collectionScroll = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
             return
         }
@@ -81,10 +83,6 @@ class ImageCollectionVC: UIViewController {
         default:
             collectionScroll.scrollDirection = .vertical
         }
-        
-        
-        
-        
     }
     
     func loadPhotos() {
@@ -235,6 +233,7 @@ extension ImageCollectionVC: CellDelegate {
 }
 extension ImageCollectionVC: SettingDelegate {
     func didUpdateDirection(direction: ScrollDirection) {
+        
         guard let collectionViewScroll = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         
         switch direction {

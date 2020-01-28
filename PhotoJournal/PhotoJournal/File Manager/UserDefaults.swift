@@ -32,7 +32,7 @@ class UserPreference {
     func updateDirection(with direction: ScrollDirection) {
         UserDefaults.standard.set(direction, forKey: UserPreferenceKey.scrollDirection)
     }
-    func getDirection() -> String? {
+    func getDirection() -> ScrollDirection.RawValue? {
         guard let direction = UserDefaults.standard.object(forKey: UserPreferenceKey.scrollDirection) as? String else {
             return nil
         }

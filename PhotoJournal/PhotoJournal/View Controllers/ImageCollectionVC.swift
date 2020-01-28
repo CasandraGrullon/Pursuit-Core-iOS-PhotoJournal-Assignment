@@ -27,8 +27,12 @@ class ImageCollectionVC: UIViewController {
         }
     }
     
-    var backgroundColor: UIColor?
-
+    var backgroundColor: UIColor? {
+        didSet {
+            collectionView.backgroundColor = backgroundColor
+            view.backgroundColor = backgroundColor
+        }
+    }
     
     var state = PhotoState.addingNew
     
@@ -42,14 +46,27 @@ class ImageCollectionVC: UIViewController {
     
     private func getColor() {
         let button = UserPreference.shared.getColor()
-        if button == 0 {
-            backgroundColor = .darkGray
-        } else if button == 1 {
+        switch button{
+        case 0:
+           backgroundColor = .darkGray
+            collectionView.backgroundColor = backgroundColor
+            view.backgroundColor = backgroundColor
+        case 1:
             backgroundColor = #colorLiteral(red: 1, green: 0.818012774, blue: 0.9189140201, alpha: 1)
-        } else if button == 2 {
-            backgroundColor = .lightGray
-        } else {
+            collectionView.backgroundColor = backgroundColor
+            view.backgroundColor = backgroundColor
+        case 2:
+           backgroundColor = .lightGray
+            collectionView.backgroundColor = backgroundColor
+            view.backgroundColor = backgroundColor
+        case 3:
             backgroundColor = .white
+            collectionView.backgroundColor = backgroundColor
+            view.backgroundColor = backgroundColor
+        default:
+            backgroundColor = .white
+            collectionView.backgroundColor = backgroundColor
+            view.backgroundColor = backgroundColor
         }
     }
     

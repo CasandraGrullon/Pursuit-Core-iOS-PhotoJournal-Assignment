@@ -25,7 +25,6 @@ class SettingsVC: UIViewController {
         backgroundColor = sender.tintColor
         settingDelegate?.didUpdateColor(color: backgroundColor ?? .white)
         UserPreference.shared.updateColor(with: sender.tag)
-        
     }
     
     @IBAction func scrollDirectionButton(_ sender: UISegmentedControl) {

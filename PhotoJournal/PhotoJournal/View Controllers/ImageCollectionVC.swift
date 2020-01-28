@@ -27,11 +27,8 @@ class ImageCollectionVC: UIViewController {
         }
     }
     
-    var backgroundColor: UIColor? {
-        didSet{
-            
-        }
-    }
+    var backgroundColor: UIColor?
+
     
     var state = PhotoState.addingNew
     
@@ -40,6 +37,20 @@ class ImageCollectionVC: UIViewController {
         loadPhotos()
         collectionView.dataSource = self
         collectionView.delegate = self
+        getColor()
+    }
+    
+    private func getColor() {
+        let button = UserPreference.shared.getColor()
+        if button == 0 {
+            backgroundColor = .darkGray
+        } else if button == 1 {
+            backgroundColor = #colorLiteral(red: 1, green: 0.818012774, blue: 0.9189140201, alpha: 1)
+        } else if button == 2 {
+            backgroundColor = .lightGray
+        } else {
+            backgroundColor = .white
+        }
     }
     
     func loadPhotos() {
@@ -190,7 +201,8 @@ extension ImageCollectionVC: CellDelegate {
 }
 extension ImageCollectionVC: SettingDelegate {
     func didUpdateColor(color: UIColor) {
-        backgroundColor = color
+        collectionView.backgroundColor = color
+        view.backgroundColor = color
     }
 }
 

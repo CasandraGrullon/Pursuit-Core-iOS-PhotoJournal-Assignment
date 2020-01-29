@@ -29,7 +29,7 @@ class UserPreference {
         }
         return bgColor
     }
-    func updateDirection(with direction: ScrollDirection) {
+    func updateDirection(with direction: ScrollDirection.RawValue) {
         UserDefaults.standard.set(direction, forKey: UserPreferenceKey.scrollDirection)
     }
     func getDirection() -> ScrollDirection.RawValue? {

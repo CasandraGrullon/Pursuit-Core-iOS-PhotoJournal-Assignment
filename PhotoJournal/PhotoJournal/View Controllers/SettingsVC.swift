@@ -32,15 +32,15 @@ class SettingsVC: UIViewController {
             switch segmentControl.selectedSegmentIndex {
             case 0 :
                 direction = .vertical
-                UserPreference.shared.updateDirection(with: direction)
+                UserPreference.shared.updateDirection(with: direction.rawValue)
                 settingDelegate?.didUpdateDirection(direction: direction)
             case 1 :
                 direction = .horizontal
-                UserPreference.shared.updateDirection(with: direction)
+                UserPreference.shared.updateDirection(with: direction.rawValue)
                 settingDelegate?.didUpdateDirection(direction: direction)
             default :
                 direction = .vertical
-                UserPreference.shared.updateDirection(with: direction)
+                UserPreference.shared.updateDirection(with: direction.rawValue)
                 settingDelegate?.didUpdateDirection(direction: direction)
             }
         }
@@ -54,7 +54,7 @@ class SettingsVC: UIViewController {
     
     @IBAction func scrollDirectionButton(_ sender: UISegmentedControl) {
         currentSegmentIndex = sender.selectedSegmentIndex
-        UserPreference.shared.updateDirection(with: direction)
+        UserPreference.shared.updateDirection(with: direction.rawValue)
         settingDelegate?.didUpdateDirection(direction: direction)
     }
     

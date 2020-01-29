@@ -187,14 +187,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <segmentedControl opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hMm-ie-aCU">
+                            <segmentedControl opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hMm-ie-aCU">
                                 <rect key="frame" x="10" y="298" width="244" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="" image="arrow.down" catalog="system"/>
                                     <segment title="" image="arrow.right" catalog="system"/>
                                 </segments>
                                 <connections>
-                                    <action selector="scrollDirectionButton:" destination="sNi-Hm-bm9" eventType="valueChanged" id="kWj-mw-o8o"/>
+                                    <action selector="scrollDirectionButton:" destination="sNi-Hm-bm9" eventType="valueChanged" id="kSi-2R-yN9"/>
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8v8-I7-Zp9">
@@ -225,8 +226,6 @@
                             <constraint firstItem="mc0-AJ-4is" firstAttribute="trailing" secondItem="m5t-f4-QzB" secondAttribute="trailing" constant="10" id="Txg-xP-ndP"/>
                             <constraint firstItem="mYI-cf-r81" firstAttribute="top" secondItem="mc0-AJ-4is" secondAttribute="top" id="WR1-Uj-SwH"/>
                             <constraint firstItem="mYI-cf-r81" firstAttribute="trailing" secondItem="mc0-AJ-4is" secondAttribute="trailing" id="WpR-0X-veO"/>
-                            <constraint firstItem="hMm-ie-aCU" firstAttribute="top" secondItem="m5t-f4-QzB" secondAttribute="bottom" constant="10" id="X6f-pX-T39"/>
-                            <constraint firstItem="hMm-ie-aCU" firstAttribute="leading" secondItem="mc0-AJ-4is" secondAttribute="leading" constant="10" id="XeZ-CH-vBf"/>
                             <constraint firstItem="bId-zp-4Ac" firstAttribute="leading" secondItem="mc0-AJ-4is" secondAttribute="leading" constant="10" id="ZBY-PX-zlR"/>
                             <constraint firstItem="mYI-cf-r81" firstAttribute="height" secondItem="sj9-w5-iJa" secondAttribute="height" multiplier="0.185268" id="aNe-Wg-1CB"/>
                             <constraint firstItem="bId-zp-4Ac" firstAttribute="top" secondItem="mc0-AJ-4is" secondAttribute="top" constant="10" id="fvG-Za-Uws"/>
@@ -234,13 +233,12 @@
                             <constraint firstItem="mYI-cf-r81" firstAttribute="leading" secondItem="mc0-AJ-4is" secondAttribute="leading" id="gwf-fj-Q9d"/>
                             <constraint firstItem="8v8-I7-Zp9" firstAttribute="top" secondItem="bId-zp-4Ac" secondAttribute="bottom" constant="20" id="s84-DR-R3i"/>
                             <constraint firstItem="ffo-6J-2XK" firstAttribute="leading" secondItem="LQG-EV-KK3" secondAttribute="trailing" constant="10" id="tBb-GS-df5"/>
-                            <constraint firstItem="mc0-AJ-4is" firstAttribute="trailing" secondItem="hMm-ie-aCU" secondAttribute="trailing" constant="160" id="z1Y-au-gqi"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="mc0-AJ-4is"/>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="Ll6-vZ-VH4"/>
                     <connections>
-                        <outlet property="segmentControl" destination="hMm-ie-aCU" id="0kK-nz-IIu"/>
+                        <outlet property="segmentControl" destination="hMm-ie-aCU" id="3IL-ef-gAx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZLe-5m-t17" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
